@@ -18,4 +18,12 @@ describe('EmployeeList', () => {
         // expect(wrapper.text().includes("No items")).toEqual(true)
         expect(wrapper.text()).toContain('No items')
     });
+
+    it('should display employees of given nationality', () => {
+        const employees = getEmployees().slice(0, 100)
+        const givenNationality = 'PL'
+        const wrapper = shallow(<EmployeeList employees={employees} filterBy={{nationality: givenNationality}} />)
+
+        expect(wrapper.find('li')).toHaveLength(32)
+    });
 });
