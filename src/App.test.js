@@ -17,13 +17,12 @@ it("should render without craching (with prop all=false)", () => {
 
 it("should match snapshot", () => {
   const tree = renderer.create(<App />).toJSON();
-
   expect(tree).toMatchInlineSnapshot(`
     <div
       className="App"
     >
       aaaa 
-      46.73920775693817
+      125
     </div>
   `);
 });
