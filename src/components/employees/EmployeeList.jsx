@@ -1,17 +1,21 @@
 import React from 'react'
 
 export class EmployeeList extends React.Component {
+
+    filtered() {
+        let result = this.props.employees
+        if (this.props.filterBy && this.props.filterBy.nationality) {
+            result = result.filter(e => e.nationality === this.props.filterBy.nationality)
+        }
+
+        return result
+    }
+
     render() {
         return !this.props.employees ? <h3>No items</h3> : 
         <ol>
-            {(this.props.filterBy.nationality ? 
-            this.props.employees
-                .filter(e => e.nationality === this.props.filterBy.nationality)
-                .map(e => 
-                    <li key={e.id}>{ e.firstName } { e.lastName }, { e.title }</li>) :
-                 this.props.employees.map(e => 
-                    <li key={e.id}>{ e.firstName } { e.lastName }, { e.title }</li>
-                ))}
+            { this.filtered().map(e => 
+                <li key={e.id}>{ e.firstName } { e.lastName }, { e.title }</li>) }
         </ol>
     }
 }
