@@ -4,7 +4,7 @@ import './App.css';
 const calculateData = (all = true) => {
   let data = []
   for (var i = 0; i < 100; i++) {
-    data.push( Math.random() )
+    data.push(Math.random())
   }
   if (!all){
     data = data.filter(e => e > 0.5)
@@ -13,7 +13,7 @@ const calculateData = (all = true) => {
 }
 
 function App({ all = true }) {
-  const sum = calculateData()
+  const sum = calculateData(all)
   return (
     <div className="App">
       aaaa {sum}
