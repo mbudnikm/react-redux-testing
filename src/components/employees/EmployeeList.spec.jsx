@@ -19,11 +19,24 @@ describe('EmployeeList', () => {
         expect(wrapper.text()).toContain('No items')
     });
 
-    it('should display employees of given nationality', () => {
-        const employees = getEmployees().slice(0, 100)
-        const givenNationality = 'PL'
-        const wrapper = shallow(<EmployeeList employees={employees} filterBy={{nationality: givenNationality}} />)
-
-        expect(wrapper.find('li')).toHaveLength(32)
-    });
+    [{
+        nationality: "PL",
+        expectedCount: 32
+    }, {
+        nationality: "DE",
+        expectedCount: 14
+    }, {
+        nationality: "US",
+        expectedCount: 21
+    }, {
+        nationality: "UK",
+        expectedCount: 7
+    }].forEach(({ nationality, expectedCount }) => {
+        it(`should display ${expectedCount} employees of given ${nationality}`, () => {
+            const employees = getEmployees().slice(0, 100)
+            const wrapper = shallow(<EmployeeList employees={employees} filterBy={{nationality: nationality}} />)
+    
+            expect(wrapper.find('li')).toHaveLength(expectedCount)
+        });
+    })
 });

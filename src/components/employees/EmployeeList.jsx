@@ -16,6 +16,6 @@ export class EmployeeList extends React.Component {
         <ol>
             { this.filtered().map(e => 
                 <li key={e.id}>{ e.firstName } { e.lastName }, { e.title }</li>) }
-        </ol>
+        </ol> 
     }
 }
