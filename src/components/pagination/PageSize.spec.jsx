@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { shallow } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 
 import { PageSize } from "./PageSize";
 
@@ -35,6 +35,8 @@ describe('PageSize', () => {
         expect(wrapper.text()).toContainAll(sizes)
     });
 
+    const getBtnByLabel = (wrapper, label) => wrapper.find('span').filterWhere(node => node.text().includes(label))
+
     it('should invoke callback function when clicked', () => {
         const spy = jest.fn()
         const sizes = [10, 25, 50]
@@ -44,12 +46,35 @@ describe('PageSize', () => {
         
         // click!
 
-        const btn = wrapper.find('span').filterWhere(node => node.text().includes(25))
-        btn.simulate('click')
+        getBtnByLabel(wrapper, '25').simulate('click')
 
         console.log(wrapper.find('span').filterWhere(node => node.text().includes(25)).debug())
 
         expect(spy).toHaveBeenCalledTimes(1)
         expect(spy).toHaveBeenCalledWith(25)
+    });
+
+    it('should invoke callback only if new size is different than old', () => {
+        const spy = jest.fn()
+        const sizes = [10, 25, 50]
+        const wrapper = mount(<PageSize 
+            availableSizes={sizes}
+            onChange={spy} />)
+
+        getBtnByLabel(wrapper, '25').simulate('click')
+
+        expect(spy).toHaveBeenCalledTimes(1)
+        expect(spy).toHaveBeenLastCalledWith(25)
+
+        getBtnByLabel(wrapper, '10').simulate('click')
+
+        expect(spy).toHaveBeenCalledTimes(2)
+        expect(spy).toHaveBeenLastCalledWith(10)
+
+        getBtnByLabel(wrapper, '10').simulate('click')
+
+        // Filtered out!
+
+        expect(spy).toHaveBeenCalledTimes(2)
     });
 });
