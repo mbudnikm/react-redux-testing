@@ -7,3 +7,9 @@ it('renders without crashing', () => {
   ReactDOM.render(<App />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
+
+it('should render without craching (with prop all=false)', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(<App all={false}/>, div);
+  ReactDOM.unmountComponentAtNode(div);
+});
