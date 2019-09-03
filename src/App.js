@@ -13,10 +13,11 @@ const calculateData = (all = true) => {
 }
 
 function App({ all = true }) {
-  const sum = calculateData(all)
+  const sum1 = calculateData(all)
+  const sum2 = calculateData()
   return (
     <div className="App">
-      aaaa {sum}
+      aaaa {sum1} {sum2}
     </div>
   );
 }
