@@ -16,6 +16,14 @@ it("should render without craching (with prop all=false)", () => {
 });
 
 it("should match snapshot", () => {
-  const app = <App />;
-  expect(app).toMatchInlineSnapshot(`<App />`);
+  const tree = renderer.create(<App />).toJSON();
+
+  expect(tree).toMatchInlineSnapshot(`
+    <div
+      className="App"
+    >
+      aaaa 
+      46.73920775693817
+    </div>
+  `);
 });
