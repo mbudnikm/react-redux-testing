@@ -90,6 +90,9 @@ describe('Pagination', () => {
     const getButtonLabels = wrapper => wrapper
             .find('.page').map(w => w.text())
 
+    const getBtnByLabel = (wrapper, label) => wrapper.find('.page')
+        .filterWhere(node => node.text().trim() === label)
+
     describe('Proper pages displayed', () => {
         [{
             displayArrows: false,
@@ -185,9 +188,6 @@ describe('Pagination', () => {
                     currentPage={currentPage}
                     pageCount={pageCount}  
                     displayArrows={true} />)
-
-                const getBtnByLabel = (wrapper, label) => wrapper.find('.page')
-                    .filterWhere(node => node.text().trim() === label)
                     
                 disabled.forEach(label => {
                     const btn = getBtnByLabel(wrapper, label)
@@ -208,22 +208,27 @@ describe('Pagination', () => {
 
   describe('Callback gets invoked', () => {
     [{
+      id: 'CB.1',
       given: { currentPage: 7, pageCount: 15 },
       actions: [{
         when: { click: 6 },
         then: [{ calledTimes: 1 }, { lastCalledWith: 6 }]
-      }]
+      }],
+      displayArrows: false
     }, {
+      id: 'CB.2',
       given: { currentPage: 7, pageCount: 15 },
       actions: [{
         when: { click: 7 },
         then: [{ calledTimes: 0 }]
-      }]
+      }],
+      displayArrows: false
     }, {
+      id: 'CB.3',
       given: { currentPage: 1, pageCount: 15 },
       actions: [{
         when: { click: '<' },
-        then: [{ calledTimes: 0 }]
+        then: [{ calledTimes: 0 }],
       }, {
         when: { click: '<<' },
         then: [{ calledTimes: 0 }]
@@ -233,12 +238,14 @@ describe('Pagination', () => {
       }, {
         when: { click: '>>' },
         then: [{ calledTimes: 2 }, { lastCalledWith: 15 }]
-      }]
+      }],
+      displayArrows: true
     }, {
+      id: 'CB.4',
       given: { currentPage: 15, pageCount: 15 },
       actions: [{
         when: { click: '>' },
-        then: [{ calledTimes: 0 }]
+        then: [{ calledTimes: 0 }],
       }, {
         when: { click: '>>' },
         then: [{ calledTimes: 0 }]
@@ -248,14 +255,34 @@ describe('Pagination', () => {
       }, {
         when: { click: '<<' },
         then: [{ calledTimes: 2 }, { lastCalledWith: 1 }]
-      }]
-    }].forEach(({ given: { currentPage, pageCount }, actions }) => {
+      }],
+      displayArrows: true
+    }].forEach(({ id, given, actions }) => {
       it(
-      `given: current = ${currentPage}, pages = ${pageCount}
+      `TEST ${id}: 
+      given: current = ${given.currentPage}, pages = ${given.pageCount}
       ${actions.map(({ when, then }) => `
       when: ${ toString(when) }
       then: ${ toString(then) }`
       ).join('\n') + '\n'}`, () => {
+        const spy = jest.fn() 
+        const wrapper = shallow(<Pagination {...given} onChange={spy} />)
+
+        actions.forEach(({when, then}) => {
+            const btn = getBtnByLabel(wrapper, `${when.click}`)
+
+            btn.simulate('click')
+            
+            then.forEach(expactations => {
+                if('calledTimes' in expactations) {
+                    expect(spy).toHaveBeenCalledTimes(expactations.calledTimes)
+                }
+
+                if('lastCalledWith' in expactations) { 
+                    expect(spy).toHaveBeenLastCalledWith(expactations.lastCalledWith)
+                }
+            })
+        })
         expect(2).toBe(2)
       });
     });

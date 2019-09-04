@@ -48,7 +48,7 @@ describe('PageSize', () => {
 
         getBtnByLabel(wrapper, '25').simulate('click')
 
-        console.log(wrapper.find('span').filterWhere(node => node.text().includes(25)).debug())
+        //console.log(wrapper.find('span').filterWhere(node => node.text().includes(25)).debug())
 
         expect(spy).toHaveBeenCalledTimes(1)
         expect(spy).toHaveBeenCalledWith(25)
@@ -84,7 +84,7 @@ describe('PageSize', () => {
             availableSizes={sizes}
             initialSize={25} />)
 
-            console.log(wrapper.debug())
+            //console.log(wrapper.debug())
 
             expect(wrapper.find('.selected').text()).toContain('25')
     });
