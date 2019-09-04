@@ -1,7 +1,5 @@
 import React from 'react'
-
-import { shallow } from 'enzyme'
-
+import { shallow, mount } from 'enzyme'
 import { Pagination } from "./Pagination";
 
 // ARRANGE - given
@@ -209,23 +207,21 @@ describe('Pagination', () => {
   describe('Callback gets invoked', () => {
     [{
       id: 'CB.1',
-      given: { currentPage: 7, pageCount: 15 },
+      given: { currentPage: 7, pageCount: 15, displayArrows: false },
       actions: [{
         when: { click: 6 },
         then: [{ calledTimes: 1 }, { lastCalledWith: 6 }]
-      }],
-      displayArrows: false
+      }]
     }, {
       id: 'CB.2',
-      given: { currentPage: 7, pageCount: 15 },
+      given: { currentPage: 7, pageCount: 15, displayArrows: false },
       actions: [{
         when: { click: 7 },
         then: [{ calledTimes: 0 }]
-      }],
-      displayArrows: false
+      }]
     }, {
       id: 'CB.3',
-      given: { currentPage: 1, pageCount: 15 },
+      given: { currentPage: 1, pageCount: 15, displayArrows: true },
       actions: [{
         when: { click: '<' },
         then: [{ calledTimes: 0 }],
@@ -238,11 +234,10 @@ describe('Pagination', () => {
       }, {
         when: { click: '>>' },
         then: [{ calledTimes: 2 }, { lastCalledWith: 15 }]
-      }],
-      displayArrows: true
+      }]
     }, {
       id: 'CB.4',
-      given: { currentPage: 15, pageCount: 15 },
+      given: { currentPage: 15, pageCount: 15, displayArrows: true },
       actions: [{
         when: { click: '>' },
         then: [{ calledTimes: 0 }],
@@ -255,36 +250,62 @@ describe('Pagination', () => {
       }, {
         when: { click: '<<' },
         then: [{ calledTimes: 2 }, { lastCalledWith: 1 }]
-      }],
-      displayArrows: true
+      }]
     }].forEach(({ id, given, actions }) => {
-      it(
-      `TEST ${id}: 
-      given: current = ${given.currentPage}, pages = ${given.pageCount}
-      ${actions.map(({ when, then }) => `
-      when: ${ toString(when) }
-      then: ${ toString(then) }`
-      ).join('\n') + '\n'}`, () => {
-        const spy = jest.fn() 
-        const wrapper = shallow(<Pagination {...given} onChange={spy} />)
-
-        actions.forEach(({when, then}) => {
+        it(
+        `TEST ${ id }:
+        given: current = ${given.currentPage}, pages = ${given.pageCount}
+        ${actions.map(({ when, then }) => `
+        when: ${ toString(when) }
+        then: ${ toString(then) }`
+        ).join('\n') + '\n'}`, () => {
+          const spy = jest.fn()
+          const wrapper = mount(<Pagination {...given} onChange={spy} />)
+  
+          actions.forEach(({ when, then }) => {
             const btn = getBtnByLabel(wrapper, `${when.click}`)
-
             btn.simulate('click')
-            
-            then.forEach(expactations => {
-                if('calledTimes' in expactations) {
-                    expect(spy).toHaveBeenCalledTimes(expactations.calledTimes)
-                }
-
-                if('lastCalledWith' in expactations) { 
-                    expect(spy).toHaveBeenLastCalledWith(expactations.lastCalledWith)
-                }
+  
+            then.forEach(expectations => {
+              if ('calledTimes' in expectations){
+                expect(spy).toHaveBeenCalledTimes(expectations.calledTimes)
+              }
+              if ('lastCalledWith' in expectations){
+                expect(spy).toHaveBeenLastCalledWith(expectations.lastCalledWith)
+              }
             })
-        })
-        expect(2).toBe(2)
+          })
+        });
       });
+    })
+
+    describe('Switching Pages', () => {
+        it('should change selected page after clicking page button', () => {
+            let wrapper
+
+            let currentPage = 13
+
+            const parent__setCurrentPage = (page) => {
+                currentPage = page
+                wrapper.setProps({ currentPage })
+            }
+            
+            wrapper = mount(<Pagination 
+                currentPage={13}
+                pageCount={15}
+                displayArrows={false} 
+                onChange={parent__setCurrentPage} />)
+
+            expect(wrapper.find('.selected').text()).toContain('13')
+            expect(getButtonLabels(wrapper))
+                .toEqual(['11', '12', '13', '14', '15'])
+
+            const btn = getBtnByLabel(wrapper, '14')
+            btn.simulate('click')
+        
+
+            expect(wrapper.find('.selected').text()).toContain('14')
+            expect(getButtonLabels(wrapper)).toEqual(['12', '13', '14', '15'])
+        });
     });
   })
-})
