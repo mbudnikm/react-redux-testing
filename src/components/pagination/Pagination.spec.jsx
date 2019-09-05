@@ -94,6 +94,8 @@ describe('Pagination', () => {
     ///////
 
     const paginationFacade = (wrapper) => ({
+      getSelected: () => wrapper.find('.selected').text(),
+
       getBtnByLabel: (label) => wrapper.find('.page')
         .filterWhere(node => node.text().trim() === label),
 
@@ -356,6 +358,46 @@ describe('Pagination', () => {
           getBtnByLabel(wrapper, '<').simulate('click')
           expect(wrapper.find('.selected').text()).toContain('14')
           expect(getButtonLabels(wrapper)).toEqual(['<<', '<', '12', '13', '14', '15', '>', '>>'])
+      });
+
+      it('should change selected page after clicking page button - with arrows and paginationFacade', () => {
+        let wrapper
+
+        let currentPage = 13
+
+        const parent__setCurrentPage = (page) => {
+            currentPage = page
+            wrapper.setProps({ currentPage })
+        }
+        
+        wrapper = mount(<Pagination 
+            currentPage={13}
+            pageCount={15}
+            displayArrows={true} 
+            onChange={parent__setCurrentPage} />)
+
+        const { getButtonLabels, getSelected, clickLabel } = paginationFacade(wrapper)
+
+        expect(getSelected()).toContain('13')
+        expect(getButtonLabels())
+            .toEqual(['<<', '<', '11', '12', '13', '14', '15', '>', '>>'])
+
+        clickLabel('<<')
+    
+        expect(getSelected()).toContain('1')
+        expect(getButtonLabels()).toEqual(['<<', '<', '1', '2', '3', '>', '>>'])
+
+        clickLabel('>')
+        expect(getSelected()).toContain('2')
+        expect(getButtonLabels()).toEqual(['<<', '<', '1', '2', '3', '4', '>', '>>'])
+
+        clickLabel('>>')
+        expect(getSelected()).toContain('15')
+        expect(getButtonLabels()).toEqual(['<<', '<', '13', '14', '15', '>', '>>'])
+
+        clickLabel('<')
+        expect(getSelected()).toContain('14')
+        expect(getButtonLabels()).toEqual(['<<', '<', '12', '13', '14', '15', '>', '>>'])
       });
     });
   })
