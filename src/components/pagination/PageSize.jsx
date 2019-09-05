@@ -4,12 +4,14 @@ export const PageSize = memo(({ availableSizes, onChange, initialSize }) => {
     const initialSelectedSize = initialSize || availableSizes[0];
     const [selectedSize, setSelectedSize] = useState(initialSelectedSize)
 
-    return <>
+    return <span className="pagination">
         <span>Items per page: </span>
         { availableSizes.map((size, idx) => 
             <Fragment key={size}>
                 { !!idx && ' | ' }
-                <span className={selectedSize === size ? 'selected' : ''} 
+                <span 
+                    data-test-type="page-size"
+                    className={selectedSize === size ? 'selected' : ''} 
                     onClick={() => {
                         if(selectedSize !== size) {
                             onChange(size)
@@ -17,5 +19,5 @@ export const PageSize = memo(({ availableSizes, onChange, initialSize }) => {
                         }
                 }}>{ size }</span>
             </Fragment>)}
-    </>
+    </span>
 })

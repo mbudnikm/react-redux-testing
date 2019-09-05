@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { EmployeeList } from './components/employees/EmployeeList';
+import { TableContainer } from "./components/pagination/TableContainer";
 
 import { getEmployees } from './data'
 
@@ -12,6 +13,9 @@ function App({ all = true }) {
     <div className="App">
       aaaa {sum1}
       <EmployeeList employees={employees}/>
+      <hr />
+
+      <TableContainer employees={employees}/>
     </div>
   );
 }

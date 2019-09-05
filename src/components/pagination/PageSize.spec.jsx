@@ -35,7 +35,9 @@ describe('PageSize', () => {
         expect(wrapper.text()).toContainAll(sizes)
     });
 
-    const getBtnByLabel = (wrapper, label) => wrapper.find('span').filterWhere(node => node.text().includes(label))
+    const getBtnByLabel = (wrapper, label) => 
+        wrapper.find('[data-test-type="page-size"]')
+        .filterWhere(node => node.text().includes(label))
 
     it('should invoke callback function when clicked', () => {
         const spy = jest.fn()

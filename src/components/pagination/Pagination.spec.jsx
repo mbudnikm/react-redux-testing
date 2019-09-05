@@ -218,7 +218,7 @@ describe('Pagination', () => {
 
     const toString = (obj) => JSON.stringify(obj)
 
-  describe('Callback gets invoked', () => {
+    describe('Callback gets invoked', () => {
     [{
       id: 'CB.1',
       given: { currentPage: 7, pageCount: 15, displayArrows: false },
@@ -399,5 +399,42 @@ describe('Pagination', () => {
         expect(getSelected()).toContain('14')
         expect(getButtonLabels()).toEqual(['<<', '<', '12', '13', '14', '15', '>', '>>'])
       });
+    });
+    
+    describe('Changing Page Count', () => {
+      it(`TEST: CPC.1
+        should resize to 25 pages and reset current page to 1`, () => {
+        const wrapper = shallow(<Pagination 
+          currentPage={7}
+          pageCount={15}
+          displayArrows={false} />)
+
+        const { getSelected } = paginationFacade(wrapper)
+
+        wrapper.setProps({ pageCount: 25, currentPage: 1 })
+        expect(getSelected()).toContain('1')
+      });
+
+      // it(`TEST: CPC.2
+      //   given: pages = 8, current = 7
+      //   when: click ">>"
+      //   then: current 8
+      //   when: resize pages = 25
+      //   then: current = 1`, () => {
+      //     const wrapper = shallow(<Pagination 
+      //       currentPage={7}
+      //       pageCount={8}
+      //       displayArrows={true} 
+      //       onChange={() => {}} />)
+  
+      //     const { getSelected, clickLabel } = paginationFacade(wrapper)
+
+      //     clickLabel('>>')
+      //     wrapper.setProps({ currentPage: 8 })
+      //     expect(getSelected()).toContain('8')
+
+      //     wrapper.setProps({ pageCount: 25 })
+      //     expect(getSelected()).toContain('1')
+      // });
     });
   })

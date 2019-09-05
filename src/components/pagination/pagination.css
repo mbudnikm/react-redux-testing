@@ -15,6 +15,10 @@
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
+button:disabled {
+    background-color: #fcc;
+}
+
 .page:hover {
     background-color: #fff;
 }
@@ -27,3 +31,4 @@
 .selected {
     font-weight: bold;
 }
+

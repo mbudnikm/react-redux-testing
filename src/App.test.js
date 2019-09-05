@@ -200,6 +200,268 @@ it("should match snapshot", () => {
           Junior Java Developer
         </li>
       </ol>
+      <hr />
+      <div>
+        <div>
+          <button
+            className="page"
+            disabled={true}
+            onClick={[Function]}
+          >
+             
+            &lt;&lt;
+             
+          </button>
+          <button
+            className="page"
+            disabled={true}
+            onClick={[Function]}
+          >
+             &lt; 
+          </button>
+          <button
+            className="page selected"
+            onClick={[Function]}
+          >
+            1
+          </button>
+          <button
+            className="page"
+            onClick={[Function]}
+          >
+            2
+          </button>
+          <button
+            className="page"
+            onClick={[Function]}
+          >
+            3
+          </button>
+          <button
+            className="page"
+            disabled={false}
+            onClick={[Function]}
+          >
+             &gt; 
+          </button>
+          <button
+            className="page"
+            disabled={false}
+            onClick={[Function]}
+          >
+             
+            &gt;&gt;
+             
+          </button>
+        </div>
+        <span
+          className="pagination"
+        >
+          <span>
+            Items per page: 
+          </span>
+          <span
+            className="selected"
+            data-test-type="page-size"
+            onClick={[Function]}
+          >
+            10
+          </span>
+           | 
+          <span
+            className=""
+            data-test-type="page-size"
+            onClick={[Function]}
+          >
+            20
+          </span>
+           | 
+          <span
+            className=""
+            data-test-type="page-size"
+            onClick={[Function]}
+          >
+            30
+          </span>
+        </span>
+        <ol>
+          <li>
+            Bertram
+             
+            Kruszewski
+            , 
+            Junior .Net Engineer
+          </li>
+          <li>
+            John
+             
+            Herzog
+            , 
+            Principal .Net Developer
+          </li>
+          <li>
+            Leila
+             
+            Szeląg
+            , 
+            Principal Software Developer
+          </li>
+          <li>
+            Jacopo
+             
+            Costa
+            , 
+            .Net Developer
+          </li>
+          <li>
+            Matteo
+             
+            Martino
+            , 
+            Junior .Net Developer
+          </li>
+          <li>
+            Conchita
+             
+            Granados
+            , 
+            Senior .Net Engineer
+          </li>
+          <li>
+            Dorothea
+             
+            Biesenbach
+            , 
+            Junior Big Data Developer
+          </li>
+          <li>
+            Amy
+             
+            Lenzen
+            , 
+            Software Engineer
+          </li>
+          <li>
+            Agrypina
+             
+            Czapla
+            , 
+            Software Engineer
+          </li>
+          <li>
+            Greta
+             
+            Zając
+            , 
+            Software Engineer
+          </li>
+          <li>
+            Rodrigo
+             
+            Ebert
+            , 
+            Senior Software Developer
+          </li>
+          <li>
+            Erik
+             
+            Senger
+            , 
+            Junior Big Data Engineer
+          </li>
+          <li>
+            Ferne
+             
+            Denesik
+            , 
+            Junior .Net Engineer
+          </li>
+          <li>
+            Elody
+             
+            Kohler
+            , 
+            Software Developer
+          </li>
+          <li>
+            Roman
+             
+            Buczkowski
+            , 
+            Java Developer
+          </li>
+          <li>
+            Władysław
+             
+            Olejniczak
+            , 
+            Junior .Net Developer
+          </li>
+          <li>
+            Ansgary
+             
+            Ruciński
+            , 
+            Junior .Net Engineer
+          </li>
+          <li>
+            Sander
+             
+            Bruin
+            , 
+            Junior Software Engineer
+          </li>
+          <li>
+            Lisa
+             
+            Veen
+            , 
+            Junior Software Developer
+          </li>
+          <li>
+            Mikołaj
+             
+            Sochacki
+            , 
+            Principal Java Engineer
+          </li>
+          <li>
+            Carmelo
+             
+            Kris
+            , 
+            Senior Java Engineer
+          </li>
+          <li>
+            Stanisław
+             
+            Mikulski
+            , 
+            Big Data Developer
+          </li>
+          <li>
+            Ruben
+             
+            Smits
+            , 
+            .Net Engineer
+          </li>
+          <li>
+            Josefina
+             
+            Olivares
+            , 
+            Senior .Net Developer
+          </li>
+          <li>
+            Georg
+             
+            Mesloh
+            , 
+            Junior Java Developer
+          </li>
+        </ol>
+      </div>
     </div>
   `);
 });
