@@ -90,6 +90,18 @@ describe('Pagination', () => {
 
     const getBtnByLabel = (wrapper, label) => wrapper.find('.page')
         .filterWhere(node => node.text().trim() === label)
+    
+    ///////
+
+    const paginationFacade = (wrapper) => ({
+      getBtnByLabel: (label) => wrapper.find('.page')
+        .filterWhere(node => node.text().trim() === label),
+
+      getButtonLabels: () => wrapper
+        .find('.page').map(w => w.text().trim()),
+
+      clickLabel: (label) => getBtnByLabel(wrapper, label).simulate('click')
+    })
 
     describe('Proper pages displayed', () => {
         [{
