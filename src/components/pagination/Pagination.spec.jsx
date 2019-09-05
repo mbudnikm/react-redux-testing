@@ -86,7 +86,7 @@ import { Pagination } from "./Pagination";
 describe('Pagination', () => {
 
     const getButtonLabels = wrapper => wrapper
-            .find('.page').map(w => w.text())
+            .find('.page').map(w => w.text().trim())
 
     const getBtnByLabel = (wrapper, label) => wrapper.find('.page')
         .filterWhere(node => node.text().trim() === label)
@@ -280,7 +280,7 @@ describe('Pagination', () => {
     })
 
     describe('Switching Pages', () => {
-        it('should change selected page after clicking page button', () => {
+        it('should change selected page after clicking page button - without arrows', () => {
             let wrapper
 
             let currentPage = 13
@@ -303,9 +303,47 @@ describe('Pagination', () => {
             const btn = getBtnByLabel(wrapper, '14')
             btn.simulate('click')
         
-
             expect(wrapper.find('.selected').text()).toContain('14')
             expect(getButtonLabels(wrapper)).toEqual(['12', '13', '14', '15'])
         });
+
+        it('should change selected page after clicking page button - with arrows', () => {
+          let wrapper
+
+          let currentPage = 13
+
+          const parent__setCurrentPage = (page) => {
+              currentPage = page
+              wrapper.setProps({ currentPage })
+          }
+          
+          wrapper = mount(<Pagination 
+              currentPage={13}
+              pageCount={15}
+              displayArrows={true} 
+              onChange={parent__setCurrentPage} />)
+
+          expect(wrapper.find('.selected').text()).toContain('13')
+          expect(getButtonLabels(wrapper))
+              .toEqual(['<<', '<', '11', '12', '13', '14', '15', '>', '>>'])
+
+          const btn = getBtnByLabel(wrapper, '<<')
+          btn.simulate('click')
+      
+          expect(wrapper.find('.selected').text()).toContain('1')
+          expect(getButtonLabels(wrapper)).toEqual(['<<', '<', '1', '2', '3', '>', '>>'])
+
+          getBtnByLabel(wrapper, ">").simulate('click')
+          expect(wrapper.find('.selected').text()).toContain('2')
+          expect(getButtonLabels(wrapper)).toEqual(['<<', '<', '1', '2', '3', '4', '>', '>>'])
+
+          getBtnByLabel(wrapper, '>>').simulate('click')
+          expect(wrapper.find('.selected').text()).toContain('15')
+          expect(getButtonLabels(wrapper)).toEqual(['<<', '<', '13', '14', '15', '>', '>>'])
+
+          getBtnByLabel(wrapper, '<').simulate('click')
+          expect(wrapper.find('.selected').text()).toContain('14')
+          expect(getButtonLabels(wrapper)).toEqual(['<<', '<', '12', '13', '14', '15', '>', '>>'])
+      });
     });
   })
